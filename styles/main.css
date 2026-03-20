@@ -2241,3 +2241,9 @@ a,button {
 
 
 
+
+
+/* Tap Highlight Fix (Mobile) */
+a,button,[role="button"],input,select,textarea {
+  -webkit-tap-highlight-color:transparent;
+}
