@@ -489,3 +489,26 @@ cards.forEach(card => {
 
 
 
+
+// Image fallback placeholder (prevents broken image slots)
+const buildFallbackImageSrc = img => {
+  const rawSeed = (img.alt || 'havenly-stay').toLowerCase().replace(/\s+/g, '-');
+  const safeSeed = encodeURIComponent(rawSeed);
+  return `https://picsum.photos/seed/${safeSeed}/1200/900`;
+};
+
+const applyImageFallback = img => {
+  if (img.dataset.fallbackApplied === 'true') return;
+  img.dataset.fallbackApplied = 'true';
+  img.src = buildFallbackImageSrc(img);
+  if (!img.alt) img.alt = 'Stay image placeholder';
+};
+
+document.querySelectorAll('img').forEach(img => {
+  img.addEventListener('error', () => applyImageFallback(img));
+
+  // Handle empty/missing src values immediately.
+  if (!img.getAttribute('src')) {
+    applyImageFallback(img);
+  }
+});
